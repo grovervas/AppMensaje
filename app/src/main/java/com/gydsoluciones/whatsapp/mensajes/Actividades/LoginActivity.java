@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.gydsoluciones.whatsapp.mensajes.Clases.Preferencias;
 import com.gydsoluciones.whatsapp.mensajes.R;
 
 import java.util.Random;
@@ -45,11 +46,13 @@ public class LoginActivity extends AppCompatActivity {
                 telefonoFormatoCorrecto = telefonoFormatoCorrecto.replace("-","");
 
                 //Generando token
-                Random random = new Random();
-                int numeroRandom = random.nextInt(9999-1000) + 1000;
+                //Random random = new Random();
+                //int numeroRandom = random.nextInt(9999-1000) + 1000;
+                //String token = String.valueOf(numeroRandom);
+                //Log.i("Mensajes",telefonoFormatoCorrecto + " " + token);
 
-                String token = String.valueOf(numeroRandom);
-                Log.i("Mensajes",telefonoFormatoCorrecto + " " + token);
+                Preferencias preferencias = new Preferencias(LoginActivity.this);
+                preferencias.SalvarUsuarioPreferencias(nombreUsuario,telefonoFormatoCorrecto);
 
             }
         });
