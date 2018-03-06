@@ -1,31 +1,31 @@
 package com.gydsoluciones.whatsapp.mensajes.Actividades;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.rtoshiro.util.format.SimpleMaskFormatter;
-import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.google.firebase.database.DatabaseReference;
 import com.gydsoluciones.whatsapp.mensajes.Clases.Permisos;
-import com.gydsoluciones.whatsapp.mensajes.Clases.Preferencias;
-import com.gydsoluciones.whatsapp.mensajes.Manifest;
+import com.gydsoluciones.whatsapp.mensajes.Config.ConfigFirebase;
 import com.gydsoluciones.whatsapp.mensajes.R;
-
-import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText tvTelefono;
+
     private Button btnRegistro;
-    private EditText tvNombre;
+    private EditText etEmailLogin;
+    private EditText etClave;
+    private TextView tvCrearUsuario;
     private String[] permisos = new String[]{android.Manifest.permission.INTERNET, android.Manifest.permission.SEND_SMS};
+
+    private DatabaseReference referenciaFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,17 @@ public class LoginActivity extends AppCompatActivity {
         //Colocar en la clase de permisos
         Permisos.validarPermisos(1,this, permisos);
 
-        tvNombre = (EditText)findViewById(R.id.tvNombre);
-        tvTelefono = (EditText)findViewById(R.id.tvTelefono);
+        etEmailLogin = (EditText)findViewById(R.id.etEmailLogin);
+        etClave = (EditText)findViewById(R.id.etClave);
+        tvCrearUsuario = (TextView)findViewById(R.id.tvCrearCuenta);
         btnRegistro = (Button)findViewById(R.id.btnRegistro);
+
+        //referenciaFirebase = ConfigFirebase.getFirebase();
+        //referenciaFirebase.child("puntos").setValue("900");
+
+        /*
+
+        /////Codigo vbalidacion de SMS/////
 
         SimpleMaskFormatter simpleMaskTelefono = new SimpleMaskFormatter("+NN NNN-NNNNNN");
         MaskTextWatcher maskTelefono = new MaskTextWatcher(tvTelefono,simpleMaskTelefono);
@@ -65,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        */
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){
@@ -90,6 +100,11 @@ public class LoginActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void abrirRegistroUsuario(View view){
+        Intent intent = new Intent(this,ValidadorActivity.class);
+        startActivity(intent);
     }
 
 

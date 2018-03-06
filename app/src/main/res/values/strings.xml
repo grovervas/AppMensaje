@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mensajes</string>
+    <string name="btnAgregarUsuario">Crear usuario</string>
+    <string name="enlaceCrearUsuario">¿No tienes cuenta? crear cuenta.</string>
 </resources>
