@@ -3,6 +3,7 @@ package com.gydsoluciones.whatsapp.mensajes.Actividades;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.gydsoluciones.whatsapp.mensajes.Clases.Permisos;
+import com.gydsoluciones.whatsapp.mensajes.Clases.Usuario;
 import com.gydsoluciones.whatsapp.mensajes.Config.ConfigFirebase;
 import com.gydsoluciones.whatsapp.mensajes.R;
 
@@ -26,11 +33,15 @@ public class LoginActivity extends AppCompatActivity {
     private String[] permisos = new String[]{android.Manifest.permission.INTERNET, android.Manifest.permission.SEND_SMS};
 
     private DatabaseReference referenciaFirebase;
+    private Usuario usuario;
+    private FirebaseAuth autenticacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        validaroUsuario();
 
         //Colocar en la clase de permisos
         Permisos.validarPermisos(1,this, permisos);
@@ -40,8 +51,16 @@ public class LoginActivity extends AppCompatActivity {
         tvCrearUsuario = (TextView)findViewById(R.id.tvCrearCuenta);
         btnRegistro = (Button)findViewById(R.id.btnRegistro);
 
-        //referenciaFirebase = ConfigFirebase.getFirebase();
-        //referenciaFirebase.child("puntos").setValue("900");
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                usuario = new Usuario();
+                usuario.setEmail(etEmailLogin.getText().toString());
+                usuario.setClave(etClave.getText().toString());
+                validarUsuario();
+            }
+        });
+
 
         /*
 
@@ -75,6 +94,39 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         */
+    }
+
+    private void validaroUsuario() {
+
+        autenticacion = ConfigFirebase.getAutenticacionFirebase();
+        if( autenticacion.getCurrentUser() != null){
+            abrirPrincipal();
+        }
+    }
+
+    private void validarUsuario() {
+
+        autenticacion = ConfigFirebase.getAutenticacionFirebase();
+        autenticacion.signInWithEmailAndPassword(
+                usuario.getEmail(),
+                usuario.getClave()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    abrirPrincipal();
+                    Toast.makeText(LoginActivity.this,"Inicio de sesion correcto",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(LoginActivity.this,"Error de inicio de sesion",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void abrirPrincipal(){
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){
