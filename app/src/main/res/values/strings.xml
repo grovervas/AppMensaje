@@ -2,4 +2,11 @@
     <string name="app_name">Mensajes</string>
     <string name="btnAgregarUsuario">Crear usuario</string>
     <string name="enlaceCrearUsuario">¿No tienes cuenta? crear cuenta.</string>
+
+    <!-- menu -->
+    <string name="mnuSalir">Salir</string>
+    <string name="menuConfig">Configuración</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     abrirPrincipal();
-                    Toast.makeText(LoginActivity.this,"Inicio de sesion correcto",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginActivity.this,"Inicio de sesion correcto",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(LoginActivity.this,"Error de inicio de sesion",Toast.LENGTH_SHORT).show();
                 }
