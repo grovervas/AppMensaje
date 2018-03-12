@@ -1,5 +1,6 @@
 package com.gydsoluciones.whatsapp.mensajes.Actividades;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -68,8 +69,9 @@ public class ValidadorActivity extends AppCompatActivity {
                     usuario.setId( task.getResult().getUser().getUid());
                     usuario.guardar_usuario();
 
-                    autenticacion.signOut();
-                    finish();
+                    //autenticacion.signOut();
+                    //finish();
+                    abrirPrincipal();
 
                 }else{
                     String error = "";
@@ -91,5 +93,11 @@ public class ValidadorActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void abrirPrincipal(){
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
